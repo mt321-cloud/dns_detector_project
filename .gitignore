@@ -1,0 +1,12 @@
+*.pcap
+*.csv
+*.json
+dga/output_dataset/
+tunnel/dns-exfiltration-dataset/
+tunnel/my-dataset/
+typo/*.csv
+build/
+*.egg-info/
+__pycache__/
+*.pyc
+.DS_Store
