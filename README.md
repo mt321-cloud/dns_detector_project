@@ -1,4 +1,4 @@
-# Realtime Detector — Run Guide
+# DNS Detector — Run Guide
 
 This repository contains tools and detectors for DNS-based detection: DGA, typosquatting, and DNS tunneling. The detectors live under `run_scripts/` and supporting code is in `dga/`, `tunnel/`, `typo/`, and other folders.
 
