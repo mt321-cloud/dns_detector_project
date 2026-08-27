@@ -13,4 +13,4 @@ __pycache__/
 venv/
 .env
 .git.backup/
-/train_ML_dga_run.log
+/dga/train_ML_dga_run.log
