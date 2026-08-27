@@ -16,9 +16,7 @@ excluded = {
 
 domains = []
 
-# -----------------------------
 # LOAD DOMAINS
-# -----------------------------
 with open(INPUT_FILE) as f:
     for line in f:
         rank, domain = line.strip().split(",")
@@ -27,9 +25,7 @@ with open(INPUT_FILE) as f:
 rows = []
 seen = set()  # used to prevent duplicates
 
-# -----------------------------
 # GENERATE TYPOS
-# -----------------------------
 for domain in domains[:N]:
     
     print("Processing:", domain)
@@ -77,9 +73,7 @@ for domain in domains[:N]:
     
     print("  Generated negative samples:", attempts)
 
-# # -----------------------------
 # # GENERATE NEGATIVE SAMPLES
-# # -----------------------------
 
 # for domain in domains[:N]:
 
@@ -103,9 +97,7 @@ for domain in domains[:N]:
     
 #     print("  Generated negative samples:", attempts)
 
-# -----------------------------
 # SAVE DATASET
-# -----------------------------
 with open(OUTPUT_FILE, "w", newline="") as f:
 
     writer = csv.writer(f)

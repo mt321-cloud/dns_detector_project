@@ -25,16 +25,12 @@ def print_full_precision_classification_report(model_name, y_true, y_pred):
     print(f"\n=== {model_name} ===")
     print(report_df.to_string(float_format=lambda x: f"{x:.15f}"))
 
-# # -----------------------------
 # # 1. LOAD DATA
-# # -----------------------------
 # df = pd.read_csv("dns-exfiltration-dataset/02_generated_dataset/benign/benign.csv", nrows=100)
 
 # print("Initial shape:", df.shape)
 
-# -----------------------------
 # 1. LOAD ALL FILES
-# -----------------------------
 
 # Paths (adjust to your folders)
 benign_path = "tunnel/dns-exfiltration-dataset/02_generated_dataset/benign/benign.csv"
@@ -70,9 +66,7 @@ print("Final dataset shape:", df.shape)
 # print("Final dataset:", df.head())
 print(df["label"].value_counts())
 
-# -----------------------------
 # 2. CLEANING
-# -----------------------------
 # df = df.drop_duplicates()
 # df = df.dropna()
 
@@ -80,9 +74,7 @@ print(df["label"].value_counts())
 # groups = df["src_ip"]
 # groups = df["dns_second_level_domain"]
 
-# -----------------------------
 # 3. DROP NON-USEFUL COLUMNS
-# -----------------------------
 drop_cols = [
     "flow_id",
     "timestamp",
@@ -110,16 +102,12 @@ drop_cols = [
 
 df = df.drop(columns=[col for col in drop_cols if col in df.columns])
 
-# -----------------------------
 # 4. LABEL ENCODING
-# -----------------------------
 # Target
 le = LabelEncoder()
 df["label"] = le.fit_transform(df["label"])  # Benign=0, Attack=1
 
-# -----------------------------
 # 5. HANDLE REMAINING NON-NUMERIC
-# -----------------------------
 # Convert any remaining object columns
 # print(df.dtypes)
 for col in df.select_dtypes(include=["object"]).columns:
@@ -127,9 +115,7 @@ for col in df.select_dtypes(include=["object"]).columns:
     df[col] = LabelEncoder().fit_transform(df[col])
     # print(f"Encoded column: {col}")
 
-# -----------------------------
 # 6. SPLIT FEATURES / LABEL
-# -----------------------------
 X = df.drop(columns=["label"])
 y = df["label"]
 # print("labels:", y.unique())
@@ -137,9 +123,7 @@ print("Final feature count:", X.shape[1])
 print("feature names:", X.columns.tolist())
 # print("Class distribution:\n", y.value_counts())
 
-# -----------------------------
 # 7. TRAIN / TEST SPLIT
-# -----------------------------
 
 # groups = df["dns_second_level_domain"]
 
@@ -175,16 +159,12 @@ X_train, X_test, y_train, y_test = train_test_split(
     
 #     break  # use first split
 
-# -----------------------------
 # 8. SCALING (for LR)
-# -----------------------------
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
-# -----------------------------
 # 9. LOGISTIC REGRESSION
-# -----------------------------
 lr = LogisticRegression(max_iter=1000, class_weight="balanced")
 
 lr.fit(X_train_scaled, y_train)
@@ -195,9 +175,7 @@ y_prob_lr = lr.predict_proba(X_test_scaled)[:, 1]
 print_full_precision_classification_report("Logistic Regression", y_test, y_pred_lr)
 print("ROC-AUC:", f"{roc_auc_score(y_test, y_prob_lr):.15f}")
 
-# -----------------------------
 # 10. RANDOM FOREST
-# -----------------------------
 rf = RandomForestClassifier(
     n_estimators=200,
     n_jobs=-1,
@@ -215,9 +193,7 @@ y_prob_rf = rf.predict_proba(X_test)[:, 1]
 print_full_precision_classification_report("Random Forest", y_test, y_pred_rf)
 print("ROC-AUC:", f"{roc_auc_score(y_test, y_prob_rf):.15f}")
 
-# -----------------------------
 # 11. XGBOOST
-# -----------------------------
 xgb = XGBClassifier(
     n_estimators=300,
     max_depth=6,
@@ -237,15 +213,11 @@ y_prob_xgb = xgb.predict_proba(X_test)[:, 1]
 print_full_precision_classification_report("XGBoost", y_test, y_pred_xgb)
 print("ROC-AUC:", f"{roc_auc_score(y_test, y_prob_xgb):.15f}")
 
-# -----------------------------
 # 12. CONFUSION MATRIX
-# -----------------------------
 print("\nConfusion Matrix (RF):")
 print(confusion_matrix(y_test, y_pred_rf))
 
-# -----------------------------
 # 13. FEATURE IMPORTANCE
-# -----------------------------
 importances = rf.feature_importances_
 feature_names = X.columns
 
@@ -257,9 +229,7 @@ feat_imp = pd.DataFrame({
 print("\nTop 15 Features:")
 print(feat_imp.head(15))
 
-# -----------------------------
 # 13. SAVE TRAINED MODELS / ARTIFACTS
-# -----------------------------
 joblib.dump({
     "model": lr,
     "scaler": scaler,

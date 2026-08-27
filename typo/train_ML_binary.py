@@ -11,14 +11,10 @@ from sklearn.ensemble import RandomForestClassifier
 from typo_binary_features import extract_features, FEATURE_NAMES_BINARY
 
 
-# -----------------------------
 # Load dataset
-# -----------------------------
 df = pd.read_csv("./typo/typos_binary_dataset.csv", nrows=100000)
 
-# -----------------------------
 # Extract features
-# -----------------------------
 features = []
 
 for _, row in df.iterrows():
@@ -31,9 +27,7 @@ for _, row in df.iterrows():
 X = np.array(features)
 y = df["classification"]
 
-# -----------------------------
 # Train/test split
-# -----------------------------
 X_train, X_test, y_train, y_test = train_test_split(
     X,
     y,
@@ -42,9 +36,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     stratify=y
 )
 
-# -----------------------------
 # Train Balanced Random Forest
-# -----------------------------
 model = RandomForestClassifier(
     n_estimators=100,
     random_state=42
@@ -58,9 +50,7 @@ joblib.dump({
     "features": FEATURE_NAMES_BINARY
 }, "typosquat_binary_model.pkl")
 
-# -----------------------------
 # Evaluate model
-# -----------------------------
 y_pred = model.predict(X_test)
 
 print("Classification Report:")

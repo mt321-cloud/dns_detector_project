@@ -14,9 +14,7 @@ from sklearn.pipeline import make_pipeline
 from dga_features import FEATURE_NAMES
 
 
-# -----------------------------
 # 1. Load dataset (path relative to repository root)
-# -----------------------------
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 data = pd.read_csv(ROOT / "output_dataset" / "Raw_Domain_Dataset_labeled.csv")
@@ -61,16 +59,12 @@ def print_train_test_metrics(model_name, y_train_true, y_train_pred, y_test_true
     return train_metrics, test_metrics
 
 
-# -----------------------------
 # 2. Encode labels
-# -----------------------------
 encoder = LabelEncoder()
 y = encoder.fit_transform(y)  # legit=0, dga=1
 
 
-# -----------------------------
 # 3. Train/Test split
-# -----------------------------
 X_train, X_test, y_train, y_test = train_test_split(
     X,
     y,
@@ -80,9 +74,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 
-# -----------------------------
 # 4. Logistic Regression
-# -----------------------------
 
 # Logistic regression requires feature scaling
 scaler = StandardScaler()
@@ -102,9 +94,7 @@ log_train_metrics, log_test_metrics = print_train_test_metrics(
 )
 
 
-# -----------------------------
 # 5. Random Forest
-# -----------------------------
 
 rf_model = RandomForestClassifier(
     n_estimators=100,
@@ -120,9 +110,7 @@ rf_train_metrics, rf_test_metrics = print_train_test_metrics(
     "Random Forest", y_train, y_pred_rf_train, y_test, y_pred_rf
 )
 
-# -----------------------------
 # 6. XGBoost
-# -----------------------------
 
 xgb_model = XGBClassifier(
     n_estimators=200,
@@ -145,9 +133,7 @@ xgb_train_metrics, xgb_test_metrics = print_train_test_metrics(
 )
 
 
-# -----------------------------
 # 7. Stratified 5-fold CV + compact overfitting report
-# -----------------------------
 
 scoring = {
     "accuracy": "accuracy",
@@ -240,9 +226,7 @@ overfitting_report_path = "dga_overfitting_report.csv"
 overfitting_report.to_csv(overfitting_report_path, index=False)
 print(f"Saved overfitting report to: {overfitting_report_path}")
 
-# -----------------------------
 # 10. Feature importance (Random Forest)
-# -----------------------------
 
 importances = pd.Series(
     rf_model.feature_importances_,
@@ -252,9 +236,7 @@ importances = pd.Series(
 print("===== Feature Importance =====")
 print(importances.sort_values(ascending=False))
 
-# -----------------------------
 # 11. Save trained models/artifacts
-# -----------------------------
 
 joblib.dump({
     "model": log_model,
