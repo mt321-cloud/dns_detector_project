@@ -4,6 +4,21 @@ This repository contains tools and detectors for DNS-based detection: DGA, typos
 
 This README gives step-by-step instructions to set up a Python virtual environment, install dependencies, run preprocessing scripts, run detectors in realtime, and produce evaluation plots.
 
+## Files excluded from GitHub
+
+Due to GitHub storage limitations, some large files, like training datasets, are intentionally excluded from this GitHub repository through `.gitignore`. This includes:
+
+- Packet captures (`*.pcap`)
+- Generated datasets and CSV files (`*.csv`), including files under `dga/output_dataset/`, `tunnel/dns-exfiltration-dataset/`, `tunnel/my-dataset/`, and `typo/`
+- JSON data files (`*.json`)
+- Build artifacts and package metadata (`build/`, `*.egg-info/`)
+- Python cache files (`__pycache__/`, `*.pyc`)
+- Local environment and system files (`venv/`, `.env`, `.DS_Store`)
+
+These files are not required for production use of the detectors and may need to be obtained separately. Models and sample data referenced by the run instructions should be placed in the paths shown in those instructions before running the detectors.
+
+Full project with all datasets is available here: https://aghedupl-my.sharepoint.com/:u:/g/personal/mtomczyk_student_agh_edu_pl/IQD4ES0ESDhpS5Kk62scHMHcAeeEwESf082rWsRb-se-WiQ?e=3iIdie
+
 Prerequisites
 - Python 3.8+ (3.10/3.11 recommended)
 - `tcpdump` (if using ALFlowLyzer realtime capture)
