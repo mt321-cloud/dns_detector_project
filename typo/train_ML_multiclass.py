@@ -9,27 +9,21 @@ from imblearn.ensemble import BalancedRandomForestClassifier
 from typo_features import ALLOWED_CLASSES, FEATURE_NAMES, extract_features
 
 
-# =============================
 # LOAD DATASET
-# =============================
 df = pd.read_csv("./typo/typos_multiclass_dataset_balanced.csv")
 
 # normalize
 df["target_domain"] = df["target_domain"].str.lower()
 df["query_domain"] = df["query_domain"].str.lower()
 
-# =============================
 # FILTER CLASSES (important!)
-# =============================
 df = df[df["classification"].isin(ALLOWED_CLASSES)]
 
 print("Class distribution:")
 print(df["classification"].value_counts())
 
 
-# =============================
 # FEATURE EXTRACTION
-# =============================
 features = []
 
 for _, row in df.iterrows():
@@ -41,9 +35,7 @@ X = np.array(features)
 y = df["classification"]
 
 
-# =============================
 # TRAIN / TEST SPLIT
-# =============================
 X_train, X_test, y_train, y_test = train_test_split(
     X,
     y,
@@ -53,9 +45,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 
-# =============================
 # TRAIN MODEL
-# =============================
 model = BalancedRandomForestClassifier(
     n_estimators=100,
     random_state=42,
@@ -75,9 +65,7 @@ model = BalancedRandomForestClassifier(
 model.fit(X_train, y_train)
 
 
-# =============================
 # EVALUATION
-# =============================
 y_pred = model.predict(X_test)
 
 print("\nClassification Report:")
@@ -87,9 +75,7 @@ print("\nConfusion Matrix:")
 print(confusion_matrix(y_test, y_pred))
 
 
-# =============================
 # SAVE MODEL / ARTIFACTS
-# =============================
 joblib.dump({
     "model": model,
     "feature_names": FEATURE_NAMES,
