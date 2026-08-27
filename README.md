@@ -24,6 +24,7 @@ Full project with all datasets is available here: https://aghedupl-my.sharepoint
 - `tcpdump` (if using ALFlowLyzer realtime capture)
 - ALFlowLyzer binary (for tunnel detection supervisor) if you plan to capture live flows
 
+## Usage
 1) Create a virtual environment and install dependencies
 
 From the repository root:
