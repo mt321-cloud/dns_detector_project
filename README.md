@@ -19,7 +19,7 @@ These files are not required for production use of the detectors and may need to
 
 Full project with all datasets is available here: https://aghedupl-my.sharepoint.com/:u:/g/personal/mtomczyk_student_agh_edu_pl/IQD4ES0ESDhpS5Kk62scHMHcAeeEwESf082rWsRb-se-WiQ?e=3iIdie
 
-Prerequisites
+## Prerequisites
 - Python 3.8+ (3.10/3.11 recommended)
 - `tcpdump` (if using ALFlowLyzer realtime capture)
 - ALFlowLyzer binary (for tunnel detection supervisor) if you plan to capture live flows
@@ -71,7 +71,7 @@ PROTECTED_LIST="/path/to/protected.txt"         # typosquatting protected domain
 ALERTS_FILE="/tmp/dns_alerts.jsonl"             # append-only alerts output
 ```
 
-DGA detector (tail Unbound log):
+DGA detector:
 
 ```bash
 $PYTHON run_scripts/dga_detector.py \
@@ -85,7 +85,7 @@ $PYTHON run_scripts/dga_detector.py \
   --verbose
 ```
 
-Typosquatting detector (tail Unbound log):
+Typosquatting detector:
 
 ```bash
 $PYTHON run_scripts/typo_detector.py \
@@ -101,7 +101,7 @@ $PYTHON run_scripts/typo_detector.py \
   --verbose
 ```
 
-Tunnel detector (poll ALFlowLyzer live CSV):
+DNS tunneling detector:
 
 ```bash
 $PYTHON run_scripts/tunnel_detector.py \
@@ -113,7 +113,7 @@ $PYTHON run_scripts/tunnel_detector.py \
   --verbose
 ```
 
-4) ALFlowLyzer realtime supervisor (builds live CSV consumed by the tunnel detector)
+4) ALFlowLyzer realtime supervisor (builds live CSV with features consumed by the ML model)
 
 Example (requires sudo for `tcpdump`):
 
